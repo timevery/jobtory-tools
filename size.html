@@ -1,0 +1,1343 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브랜드별 사이즈 비교 | Jobtory</title>
+<style>
+:root{color-scheme:light;--blue:#2563eb;--ink:#17243b;--muted:#58677e;--line:#e2e8f0;--pale:#f4f7fc}
+*{box-sizing:border-box}body{margin:0;background:#f1f5fa;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;line-height:1.65}
+button,input,select{font:inherit}button,a,input,select,summary{touch-action:manipulation}button{cursor:pointer}a{color:#1d4ed8;text-underline-offset:3px}
+:focus-visible{outline:3px solid #93b5ff;outline-offset:3px}[hidden]{display:none!important}
+.card{max-width:1020px;margin:36px auto;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 44px #132d5710;overflow:hidden}
+header{padding:32px 36px;background:#15315d;color:#fff;position:relative}header small{font-size:11px;letter-spacing:2px;color:#b8ceff}h1{font-size:28px;letter-spacing:-1px;margin:8px 0}header p{margin:0;color:#d0def2;font-size:14px}.header-tag{position:absolute;right:36px;top:40px;border:1px solid #607aa2;border-radius:30px;padding:5px 13px;font-size:12px}
+main{padding:28px 24px}.tabs{display:flex;gap:8px;padding:5px;background:var(--pale);border-radius:12px;margin-bottom:28px}.tab{flex:1;border:0;border-radius:8px;padding:11px 5px;background:transparent;font-size:14px;font-weight:700;color:var(--muted)}.tab[aria-pressed="true"]{background:white;color:var(--blue);box-shadow:0 2px 8px #15315d12}
+.fields{display:grid;grid-template-columns:1fr 2fr;gap:18px}.fields.clothes{grid-template-columns:1fr 1fr}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field select,.field input{width:100%;padding:11px 13px;background:white;border:1px solid #bfcbdc;border-radius:9px;min-height:48px}.field input:disabled{background:#f1f5f9;color:#8a96a6}.measure-label{display:flex!important;align-items:center;gap:8px;min-height:22px}.measure-label input{width:16px;height:16px;min-height:0;margin:0}.hint{font-size:12px;color:var(--muted);margin:10px 0 0}.input-note{margin:16px 0 26px;padding:12px 15px;background:#f4f7fc;border-radius:9px;font-size:13px;color:#455672}.error{color:#b42318;font-size:13px;margin:10px 0}
+.result-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.result-head h2{font-size:18px;letter-spacing:-.5px;margin:0}.badge{background:#eaf2ff;color:#2454a7;padding:4px 10px;border-radius:20px;font-size:12px;white-space:nowrap}.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px}.scroll:focus{outline-offset:2px}table{border-collapse:separate;border-spacing:0;width:100%;min-width:520px;table-layout:fixed;text-align:center}th,td{padding:17px 5px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);overflow-wrap:anywhere}th:last-child,td:last-child{border-right:0}thead th{background:#f5f8fd;font-size:15px}thead th small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:2px}.country{width:56px;position:sticky;left:0;background:#f8fafc;z-index:1;font-size:16px}td{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;color:#173b78}tbody tr:nth-child(2) td{background:#fcfdff}td .detail{display:block;font-weight:400;color:#6a778b;font-size:11px;margin-top:3px}tfoot th,tfoot td{border-bottom:0;background:#f8fafc;padding:10px 4px;font-size:11px;font-weight:400;color:var(--muted)}tfoot a{font-size:12px}.table-caption{font-size:13px;color:var(--muted);margin:0 0 12px}.explain{font-size:12px;color:var(--muted);margin-top:12px}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}.sources{margin-top:24px;border-top:1px solid var(--line);padding-top:18px;font-size:12px}.sources summary{cursor:pointer;font-size:13px;font-weight:700}.source-item{padding:11px 0;border-bottom:1px solid #eef2f6}.source-item p{margin:4px 0}.source-item a{margin-right:12px}.method{margin-top:16px;font-size:12px;color:var(--muted)}footer{padding:17px 36px;background:#f8fafc;border-top:1px solid var(--line);font-size:11px;color:#68778d;display:flex;justify-content:space-between;gap:10px}.mobile-tip{display:none;font-size:11px;color:var(--muted);margin:7px 0}.empty{font-size:13px;color:#77859a}
+@media(max-width:760px){.card{margin:12px;border-radius:14px}header{padding:24px 20px}h1{font-size:23px}.header-tag{display:none}main{padding:22px 12px}.fields,.fields.clothes{grid-template-columns:1fr}.tabs{gap:2px;margin-bottom:22px}.tab{font-size:13px}th,td{padding:15px 4px}thead th{font-size:13px}td{font-size:18px}table{min-width:520px}.result-head{align-items:flex-start}.result-head h2{font-size:17px}.badge{font-size:11px}footer{padding:16px;flex-direction:column;gap:3px}}
+@media(max-width:571px){.mobile-tip{display:block}}
+@media print{body{background:white}.card{margin:0;max-width:none;box-shadow:none}header{background:white;color:#17243b}header p,header small{color:#58677e}.sources{display:none}.scroll{overflow:visible}table{min-width:0}.mobile-tip{display:none}}
+header .blog-link{margin-top:8px;text-align:right;font-size:12px;overflow-wrap:anywhere}header .blog-link a{color:inherit}
+</style>
+</head>
+<body>
+<article class="card">
+<header><small>JOBTORY . SIZE GUIDE</small><h1>브랜드별 사이즈 비교</h1><p>한국 사이즈 하나로, 해외 브랜드 표기로 변환</p><p class="blog-link"><a href="https://blog.naver.com/oddjobpedia" target="_blank" rel="noopener noreferrer">https://blog.naver.com/oddjobpedia</a></p><span class="header-tag">EU · US · UK</span></header>
+<main>
+<nav class="tabs" aria-label="비교할 카테고리">
+<button type="button" class="tab" data-category="shoes" aria-pressed="true">신발 Size</button>
+<button type="button" class="tab" data-category="men" aria-pressed="false">남성 의류</button>
+<button type="button" class="tab" data-category="women" aria-pressed="false">여성 의류</button>
+</nav>
+<div class="fields" id="fields">
+ <div class="field" id="gender-field"><label for="gender">신발 구분</label><select id="gender"><option value="men">남성용</option><option value="women">여성용</option></select></div>
+ <div class="field"><label for="kr-size" id="kr-label">한국 신발 사이즈 (mm)</label><select id="kr-size" aria-describedby="input-note"></select></div>
+ <div class="field" id="chest-field" hidden><label class="measure-label" for="use-chest"><input type="checkbox" id="use-chest">실제 가슴둘레로 비교 (선택)</label><input type="number" id="chest" inputmode="decimal" min="70" max="140" step="0.1" placeholder="가슴둘레 cm 입력" aria-label="실제 가슴둘레 (cm)" aria-describedby="input-note input-error" disabled></div>
+</div>
+<p id="input-note" class="input-note"></p>
+<p id="input-error" class="error" role="alert" hidden></p>
+<section aria-label="브랜드 비교 결과">
+ <div class="result-head"><h2 id="result-title">브랜드별 해외 사이즈</h2><span class="badge" id="result-badge"></span></div>
+ <p class="table-caption" id="result-summary" role="status" aria-live="polite"></p>
+ <div class="scroll" tabindex="0" role="region" aria-label="브랜드 5개 비교표, 좁은 화면에서는 좌우 스크롤"><table id="comparison" aria-describedby="result-summary table-note"><caption hidden>브랜드별 EU, US, UK 사이즈 비교</caption><thead id="table-head"></thead><tbody id="table-body"></tbody><tfoot id="table-foot"></tfoot></table></div>
+ <p class="mobile-tip">↔ 표를 좌우로 밀면 5개 브랜드를 모두 볼 수 있어요.</p>
+ <p class="explain" id="table-note"></p>
+ <div class="legend" id="legend"></div>
+</section>
+<details class="sources"><summary>출처 및 비교 기준 보기</summary><div id="source-list"></div><div class="method" id="method"></div></details>
+<p class="method">인지도가 높은 글로벌 브랜드 중 공식 사이즈표를 확인할 수 있는 5개를 선정했습니다. 판매량 순위는 아닙니다. 의류 비교 범위는 성인 일반 상의입니다.</p>
+<noscript><p class="error">사이즈 비교를 이용하려면 브라우저의 JavaScript를 켜 주세요.</p></noscript>
+</main>
+<footer><span>브랜드·모델·판매 지역에 따라 차이가 있습니다. 구매할 상품의 사이즈표를 최종 확인하세요.</span><span>Developed by Jobtory</span></footer>
+</article>
+<script>
+'use strict';
+const DATA = {
+  "checked": "2026-09-30",
+  "shoeBrands": [
+    {
+      "id": "nike",
+      "name": "Nike",
+      "ko": "나이키",
+      "sources": [
+        "https://www.nike.com/size-fit/mens-footwear",
+        "https://www.nike.com/size-fit/womens-footwear"
+      ],
+      "note": "남성·여성 전용 표의 CM/JP 라벨을 각각 사용합니다.",
+      "men": [
+        {
+          "kr": 250,
+          "eu": "40",
+          "us": "7",
+          "uk": "6"
+        },
+        {
+          "kr": 255,
+          "eu": "40.5",
+          "us": "7.5",
+          "uk": "6.5"
+        },
+        {
+          "kr": 260,
+          "eu": "41",
+          "us": "8",
+          "uk": "7"
+        },
+        {
+          "kr": 265,
+          "eu": "42",
+          "us": "8.5",
+          "uk": "7.5"
+        },
+        {
+          "kr": 270,
+          "eu": "42.5",
+          "us": "9",
+          "uk": "8"
+        },
+        {
+          "kr": 275,
+          "eu": "43",
+          "us": "9.5",
+          "uk": "8.5"
+        },
+        {
+          "kr": 280,
+          "eu": "44",
+          "us": "10",
+          "uk": "9"
+        },
+        {
+          "kr": 285,
+          "eu": "44.5",
+          "us": "10.5",
+          "uk": "9.5"
+        },
+        {
+          "kr": 290,
+          "eu": "45",
+          "us": "11",
+          "uk": "10"
+        }
+      ],
+      "women": [
+        {
+          "kr": 220,
+          "eu": "35.5",
+          "us": "5",
+          "uk": "2.5"
+        },
+        {
+          "kr": 225,
+          "eu": "36",
+          "us": "5.5",
+          "uk": "3"
+        },
+        {
+          "kr": 230,
+          "eu": "36.5",
+          "us": "6",
+          "uk": "3.5"
+        },
+        {
+          "kr": 235,
+          "eu": "37.5",
+          "us": "6.5",
+          "uk": "4"
+        },
+        {
+          "kr": 240,
+          "eu": "38",
+          "us": "7",
+          "uk": "4.5"
+        },
+        {
+          "kr": 245,
+          "eu": "38.5",
+          "us": "7.5",
+          "uk": "5"
+        },
+        {
+          "kr": 250,
+          "eu": "39",
+          "us": "8",
+          "uk": "5.5"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "8.5",
+          "uk": "6"
+        }
+      ]
+    },
+    {
+      "id": "adidas",
+      "name": "adidas",
+      "ko": "아디다스",
+      "sources": [
+        "https://www.adidas.com/us/help/size_charts/men-shoes"
+      ],
+      "note": "공식 표의 JP(mm) 라벨을 대응시킵니다. Heel-toe 실측값과 다릅니다.",
+      "men": [
+        {
+          "kr": 250,
+          "eu": "40",
+          "us": "7",
+          "uk": "6.5"
+        },
+        {
+          "kr": 255,
+          "eu": "40⅔",
+          "us": "7.5",
+          "uk": "7"
+        },
+        {
+          "kr": 260,
+          "eu": "41⅓",
+          "us": "8",
+          "uk": "7.5"
+        },
+        {
+          "kr": 265,
+          "eu": "42",
+          "us": "8.5",
+          "uk": "8"
+        },
+        {
+          "kr": 270,
+          "eu": "42⅔",
+          "us": "9",
+          "uk": "8.5"
+        },
+        {
+          "kr": 275,
+          "eu": "43⅓",
+          "us": "9.5",
+          "uk": "9"
+        },
+        {
+          "kr": 280,
+          "eu": "44",
+          "us": "10",
+          "uk": "9.5"
+        },
+        {
+          "kr": 285,
+          "eu": "44⅔",
+          "us": "10.5",
+          "uk": "10"
+        },
+        {
+          "kr": 290,
+          "eu": "45⅓",
+          "us": "11",
+          "uk": "10.5"
+        }
+      ],
+      "women": [
+        {
+          "kr": 220,
+          "eu": "36",
+          "us": "5",
+          "uk": "3.5"
+        },
+        {
+          "kr": 225,
+          "eu": "36⅔",
+          "us": "5.5",
+          "uk": "4"
+        },
+        {
+          "kr": 230,
+          "eu": "37⅓",
+          "us": "6",
+          "uk": "4.5"
+        },
+        {
+          "kr": 235,
+          "eu": "38",
+          "us": "6.5",
+          "uk": "5"
+        },
+        {
+          "kr": 240,
+          "eu": "38⅔",
+          "us": "7",
+          "uk": "5.5"
+        },
+        {
+          "kr": 245,
+          "eu": "39⅓",
+          "us": "7.5",
+          "uk": "6"
+        },
+        {
+          "kr": 250,
+          "eu": "40",
+          "us": "8",
+          "uk": "6.5"
+        },
+        {
+          "kr": 255,
+          "eu": "40⅔",
+          "us": "8.5",
+          "uk": "7"
+        }
+      ]
+    },
+    {
+      "id": "nb",
+      "name": "New Balance",
+      "ko": "뉴발란스",
+      "sources": [
+        "https://www.newbalance.co.uk/size-guide.html"
+      ],
+      "note": "남성/유니섹스 표와 여성 전용 표를 분리했습니다. Length(cm) 열 기준입니다.",
+      "men": [
+        {
+          "kr": 250,
+          "eu": "40",
+          "us": "7",
+          "uk": "6.5"
+        },
+        {
+          "kr": 255,
+          "eu": "40.5",
+          "us": "7.5",
+          "uk": "7"
+        },
+        {
+          "kr": 260,
+          "eu": "41.5",
+          "us": "8",
+          "uk": "7.5"
+        },
+        {
+          "kr": 265,
+          "eu": "42",
+          "us": "8.5",
+          "uk": "8"
+        },
+        {
+          "kr": 270,
+          "eu": "42.5",
+          "us": "9",
+          "uk": "8.5"
+        },
+        {
+          "kr": 275,
+          "eu": "43",
+          "us": "9.5",
+          "uk": "9"
+        },
+        {
+          "kr": 280,
+          "eu": "44",
+          "us": "10",
+          "uk": "9.5"
+        },
+        {
+          "kr": 285,
+          "eu": "44.5",
+          "us": "10.5",
+          "uk": "10"
+        },
+        {
+          "kr": 290,
+          "eu": "45",
+          "us": "11",
+          "uk": "10.5"
+        }
+      ],
+      "women": [
+        {
+          "kr": 220,
+          "eu": "35",
+          "us": "5",
+          "uk": "3"
+        },
+        {
+          "kr": 225,
+          "eu": "36",
+          "us": "5.5",
+          "uk": "3.5"
+        },
+        {
+          "kr": 230,
+          "eu": "36.5",
+          "us": "6",
+          "uk": "4"
+        },
+        {
+          "kr": 235,
+          "eu": "37",
+          "us": "6.5",
+          "uk": "4.5"
+        },
+        {
+          "kr": 240,
+          "eu": "37.5",
+          "us": "7",
+          "uk": "5"
+        },
+        {
+          "kr": 245,
+          "eu": "38",
+          "us": "7.5",
+          "uk": "5.5"
+        },
+        {
+          "kr": 250,
+          "eu": "39",
+          "us": "8",
+          "uk": "6"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "8.5",
+          "uk": "6.5"
+        }
+      ]
+    },
+    {
+      "id": "asics",
+      "name": "ASICS",
+      "ko": "아식스",
+      "sources": [
+        "https://www.asics.com/nz/en-nz/size-guide"
+      ],
+      "note": "뉴질랜드 공식 일반 신발표의 CM 열을 사용합니다. 작업화·샌들 표는 제외했습니다.",
+      "men": [
+        {
+          "kr": 250,
+          "eu": "39.5",
+          "us": "6.5",
+          "uk": "5.5"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "7",
+          "uk": "6"
+        },
+        {
+          "kr": 260,
+          "eu": "41.5",
+          "us": "8",
+          "uk": "7"
+        },
+        {
+          "kr": 265,
+          "eu": "42",
+          "us": "8.5",
+          "uk": "7.5"
+        },
+        {
+          "kr": 270,
+          "eu": "42.5",
+          "us": "9",
+          "uk": "8"
+        },
+        {
+          "kr": 275,
+          "eu": "43.5",
+          "us": "9.5",
+          "uk": "8.5"
+        },
+        {
+          "kr": 280,
+          "eu": "44",
+          "us": "10",
+          "uk": "9"
+        },
+        {
+          "kr": 285,
+          "eu": "45",
+          "us": "11",
+          "uk": "10"
+        },
+        {
+          "kr": 290,
+          "eu": "46",
+          "us": "11.5",
+          "uk": "10.5"
+        }
+      ],
+      "women": [
+        {
+          "kr": 220,
+          "eu": "35.5",
+          "us": "5",
+          "uk": "3"
+        },
+        {
+          "kr": 225,
+          "eu": "36",
+          "us": "5.5",
+          "uk": "3.5"
+        },
+        {
+          "kr": 230,
+          "eu": "37",
+          "us": "6",
+          "uk": "4"
+        },
+        {
+          "kr": 235,
+          "eu": "37.5",
+          "us": "6.5",
+          "uk": "4.5"
+        },
+        {
+          "kr": 240,
+          "eu": "38",
+          "us": "7",
+          "uk": "5"
+        },
+        {
+          "kr": 245,
+          "eu": "39",
+          "us": "7.5",
+          "uk": "5.5"
+        },
+        {
+          "kr": 250,
+          "eu": "39.5",
+          "us": "8",
+          "uk": "6"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "8.5",
+          "uk": "6.5"
+        }
+      ]
+    },
+    {
+      "id": "puma",
+      "name": "PUMA",
+      "ko": "푸마",
+      "sources": [
+        "https://vn.puma.com/vn/en/VN-size-guide-footer-2025.html"
+      ],
+      "note": "공식 남성·여성 신발표의 JPN/CM 라벨을 사용합니다.",
+      "men": [
+        {
+          "kr": 250,
+          "eu": "39",
+          "us": "7",
+          "uk": "6"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "7.5",
+          "uk": "6.5"
+        },
+        {
+          "kr": 260,
+          "eu": "40.5",
+          "us": "8",
+          "uk": "7"
+        },
+        {
+          "kr": 265,
+          "eu": "41",
+          "us": "8.5",
+          "uk": "7.5"
+        },
+        {
+          "kr": 270,
+          "eu": "42",
+          "us": "9",
+          "uk": "8"
+        },
+        {
+          "kr": 275,
+          "eu": "42.5",
+          "us": "9.5",
+          "uk": "8.5"
+        },
+        {
+          "kr": 280,
+          "eu": "43",
+          "us": "10",
+          "uk": "9"
+        },
+        {
+          "kr": 285,
+          "eu": "44",
+          "us": "10.5",
+          "uk": "9.5"
+        },
+        {
+          "kr": 290,
+          "eu": "44.5",
+          "us": "11",
+          "uk": "10"
+        }
+      ],
+      "women": [
+        {
+          "kr": 220,
+          "eu": "35.5",
+          "us": "5.5",
+          "uk": "3"
+        },
+        {
+          "kr": 225,
+          "eu": "36",
+          "us": "6",
+          "uk": "3.5"
+        },
+        {
+          "kr": 230,
+          "eu": "37",
+          "us": "6.5",
+          "uk": "4"
+        },
+        {
+          "kr": 235,
+          "eu": "37.5",
+          "us": "7",
+          "uk": "4.5"
+        },
+        {
+          "kr": 240,
+          "eu": "38",
+          "us": "7.5",
+          "uk": "5"
+        },
+        {
+          "kr": 245,
+          "eu": "38.5",
+          "us": "8",
+          "uk": "5.5"
+        },
+        {
+          "kr": 250,
+          "eu": "39",
+          "us": "8.5",
+          "uk": "6"
+        },
+        {
+          "kr": 255,
+          "eu": "40",
+          "us": "9",
+          "uk": "6.5"
+        }
+      ]
+    }
+  ],
+  "apparelBrands": [
+    {
+      "id": "nike",
+      "name": "Nike",
+      "ko": "나이키",
+      "sources": [
+        "https://www.nike.com/size-fit/mens_tops_alpha",
+        "https://www.nike.com/size-fit/womens-tops-alpha",
+        "https://www.nike.com/gb/size-fit/mens-tops-alpha"
+      ],
+      "note": "일반 상의 표. 남성은 공통 문자 사이즈, 여성은 공식 국가별 숫자 표기를 사용합니다. 가슴둘레는 공식 inch 값 × 2.54입니다.",
+      "men": [
+        {
+          "label": "XS",
+          "min": 80.01,
+          "max": 88.9,
+          "eu": "XS",
+          "us": "XS",
+          "uk": "XS"
+        },
+        {
+          "label": "S",
+          "min": 88.9,
+          "max": 95.25,
+          "eu": "S",
+          "us": "S",
+          "uk": "S"
+        },
+        {
+          "label": "M",
+          "min": 95.25,
+          "max": 104.14,
+          "eu": "M",
+          "us": "M",
+          "uk": "M"
+        },
+        {
+          "label": "L",
+          "min": 104.14,
+          "max": 111.76,
+          "eu": "L",
+          "us": "L",
+          "uk": "L"
+        },
+        {
+          "label": "XL",
+          "min": 111.76,
+          "max": 123.19,
+          "eu": "XL",
+          "us": "XL",
+          "uk": "XL"
+        },
+        {
+          "label": "XXL",
+          "min": 123.19,
+          "max": 135.89000000000001,
+          "eu": "XXL",
+          "us": "XXL",
+          "uk": "XXL"
+        }
+      ],
+      "women": [
+        {
+          "label": "XS",
+          "min": 74.93,
+          "max": 82.55,
+          "eu": "32–34",
+          "us": "0–2",
+          "uk": "4–6"
+        },
+        {
+          "label": "S",
+          "min": 82.55,
+          "max": 90.17,
+          "eu": "36–38",
+          "us": "4–6",
+          "uk": "8–10"
+        },
+        {
+          "label": "M",
+          "min": 90.17,
+          "max": 96.52,
+          "eu": "40–42",
+          "us": "8–10",
+          "uk": "12–14"
+        },
+        {
+          "label": "L",
+          "min": 96.52,
+          "max": 104.14,
+          "eu": "44–46",
+          "us": "12–14",
+          "uk": "16–18"
+        },
+        {
+          "label": "XL",
+          "min": 104.14,
+          "max": 113.03,
+          "eu": "48–50",
+          "us": "16–18",
+          "uk": "20–22"
+        },
+        {
+          "label": "XXL",
+          "min": 113.03,
+          "max": 123.19,
+          "eu": "52–54",
+          "us": "20–22",
+          "uk": "24–26"
+        }
+      ]
+    },
+    {
+      "id": "adidas",
+      "name": "adidas",
+      "ko": "아디다스",
+      "sources": [
+        "https://www.adidas.com/us/help/size_charts",
+        "https://www.adidas.co.uk/help/size_charts/women-shirts_tops"
+      ],
+      "note": "일반 상의 표. 남성은 공식 US/UK/EU 공통 문자 표기, 여성은 EU 열을 사용하며 FR·IT와 구분합니다.",
+      "men": [
+        {
+          "label": "XS",
+          "min": 83,
+          "max": 86,
+          "eu": "XS",
+          "us": "XS",
+          "uk": "XS"
+        },
+        {
+          "label": "S",
+          "min": 87,
+          "max": 92,
+          "eu": "S",
+          "us": "S",
+          "uk": "S"
+        },
+        {
+          "label": "M",
+          "min": 93,
+          "max": 100,
+          "eu": "M",
+          "us": "M",
+          "uk": "M"
+        },
+        {
+          "label": "L",
+          "min": 101,
+          "max": 108,
+          "eu": "L",
+          "us": "L",
+          "uk": "L"
+        },
+        {
+          "label": "XL",
+          "min": 109,
+          "max": 118,
+          "eu": "XL",
+          "us": "XL",
+          "uk": "XL"
+        },
+        {
+          "label": "2XL",
+          "min": 119,
+          "max": 130,
+          "eu": "2XL",
+          "us": "2XL",
+          "uk": "2XL"
+        }
+      ],
+      "women": [
+        {
+          "label": "XS",
+          "min": 77,
+          "max": 82,
+          "eu": "30–32",
+          "us": "0–2",
+          "uk": "4–6"
+        },
+        {
+          "label": "S",
+          "min": 83,
+          "max": 88,
+          "eu": "34–36",
+          "us": "4–6",
+          "uk": "8–10"
+        },
+        {
+          "label": "M",
+          "min": 89,
+          "max": 94,
+          "eu": "38–40",
+          "us": "8–10",
+          "uk": "12–14"
+        },
+        {
+          "label": "L",
+          "min": 95,
+          "max": 101,
+          "eu": "42–44",
+          "us": "12–14",
+          "uk": "16–18"
+        },
+        {
+          "label": "XL",
+          "min": 102,
+          "max": 109,
+          "eu": "46–48",
+          "us": "16–18",
+          "uk": "20–22"
+        },
+        {
+          "label": "2XL",
+          "min": 110,
+          "max": 118,
+          "eu": "50–52",
+          "us": "20",
+          "uk": "24–26"
+        }
+      ]
+    },
+    {
+      "id": "puma",
+      "name": "PUMA",
+      "ko": "푸마",
+      "sources": [
+        "https://vn.puma.com/vn/en/VN-size-guide-footer-2025.html",
+        "https://ae.puma.com/ae/en/size-guide.html"
+      ],
+      "note": "일반 의류의 신체 치수 표. EU는 UAE 공식 EU 열을 사용합니다. 베트남 표의 FR/EUR 열은 여성 프랑스 표기로 2가 크므로 사용하지 않습니다.",
+      "men": [
+        {
+          "label": "XS",
+          "min": 81,
+          "max": 88,
+          "eu": "40–42",
+          "us": "XS",
+          "uk": "XS"
+        },
+        {
+          "label": "S",
+          "min": 89,
+          "max": 96,
+          "eu": "44–46",
+          "us": "S",
+          "uk": "S"
+        },
+        {
+          "label": "M",
+          "min": 97,
+          "max": 104,
+          "eu": "48–50",
+          "us": "M",
+          "uk": "M"
+        },
+        {
+          "label": "L",
+          "min": 105,
+          "max": 113,
+          "eu": "52–54",
+          "us": "L",
+          "uk": "L"
+        },
+        {
+          "label": "XL",
+          "min": 114,
+          "max": 123,
+          "eu": "56–58",
+          "us": "XL",
+          "uk": "XL"
+        },
+        {
+          "label": "XXL",
+          "min": 124,
+          "max": 133,
+          "eu": "60–62",
+          "us": "XXL",
+          "uk": "XXL"
+        }
+      ],
+      "women": [
+        {
+          "label": "XS",
+          "min": 80,
+          "max": 84,
+          "eu": "34",
+          "us": "XS",
+          "uk": "8"
+        },
+        {
+          "label": "S",
+          "min": 85,
+          "max": 90,
+          "eu": "36",
+          "us": "S",
+          "uk": "10"
+        },
+        {
+          "label": "M",
+          "min": 91,
+          "max": 98,
+          "eu": "38",
+          "us": "M",
+          "uk": "12"
+        },
+        {
+          "label": "L",
+          "min": 99,
+          "max": 106,
+          "eu": "40",
+          "us": "L",
+          "uk": "14"
+        },
+        {
+          "label": "XL",
+          "min": 107,
+          "max": 114,
+          "eu": "42",
+          "us": "XL",
+          "uk": "16"
+        },
+        {
+          "label": "XXL",
+          "min": 115,
+          "max": 122,
+          "eu": "44",
+          "us": "XXL",
+          "uk": "18"
+        }
+      ]
+    },
+    {
+      "id": "hm",
+      "name": "H&M",
+      "ko": "에이치앤엠",
+      "sources": [
+        "https://www.hm.com/xk/customer-service/sizeguide/men/",
+        "https://id.hm.com/id_en/customer-service/sizeguide/ladies.html",
+        "https://whatismysize.com/clothing/hm-clothing-size-chart",
+        "https://www2.hm.com/en_gb/productpage.1307747003.html"
+      ],
+      "note": "남성: XK 공식 Tops 숫자표(셔츠 목둘레 제외). 여성 EU·US·가슴둘레: ID 공식 상의표. 여성 UK: WhatIsMySize 보조 비교표를 사용했으며 EU 36=UK 8은 영국 공식 상품에서도 확인했습니다. 이전 CR 표와 숫자가 달라 혼용하지 않았습니다. 판매 지역의 상품표를 우선 확인하세요.",
+      "men": [
+        {
+          "min": 84,
+          "max": 84,
+          "label": "42",
+          "eu": "42",
+          "us": "32R",
+          "uk": "32R"
+        },
+        {
+          "min": 88,
+          "max": 88,
+          "label": "44",
+          "eu": "44",
+          "us": "34R",
+          "uk": "34R"
+        },
+        {
+          "min": 92,
+          "max": 92,
+          "label": "46",
+          "eu": "46",
+          "us": "36R",
+          "uk": "36R"
+        },
+        {
+          "min": 96,
+          "max": 96,
+          "label": "48",
+          "eu": "48",
+          "us": "38R",
+          "uk": "38R"
+        },
+        {
+          "min": 100,
+          "max": 100,
+          "label": "50",
+          "eu": "50",
+          "us": "40R",
+          "uk": "40R"
+        },
+        {
+          "min": 104,
+          "max": 104,
+          "label": "52",
+          "eu": "52",
+          "us": "42R",
+          "uk": "42R"
+        },
+        {
+          "min": 108,
+          "max": 108,
+          "label": "54",
+          "eu": "54",
+          "us": "44R",
+          "uk": "44R"
+        },
+        {
+          "min": 112,
+          "max": 112,
+          "label": "56",
+          "eu": "56",
+          "us": "46R",
+          "uk": "46R"
+        },
+        {
+          "min": 116,
+          "max": 116,
+          "label": "58",
+          "eu": "58",
+          "us": "48R",
+          "uk": "48R"
+        },
+        {
+          "min": 120,
+          "max": 120,
+          "label": "60",
+          "eu": "60",
+          "us": "50R",
+          "uk": "50R"
+        },
+        {
+          "min": 124,
+          "max": 124,
+          "label": "62",
+          "eu": "62",
+          "us": "52R",
+          "uk": "52R"
+        }
+      ],
+      "women": [
+        {
+          "label": "32",
+          "min": 74,
+          "max": 78,
+          "eu": "32",
+          "us": "0",
+          "uk": "4"
+        },
+        {
+          "label": "34",
+          "min": 78,
+          "max": 82,
+          "eu": "34",
+          "us": "2",
+          "uk": "6"
+        },
+        {
+          "label": "36",
+          "min": 82,
+          "max": 86,
+          "eu": "36",
+          "us": "4",
+          "uk": "8"
+        },
+        {
+          "label": "38",
+          "min": 86,
+          "max": 90,
+          "eu": "38",
+          "us": "6",
+          "uk": "10"
+        },
+        {
+          "label": "40",
+          "min": 90,
+          "max": 94,
+          "eu": "40",
+          "us": "8",
+          "uk": "12"
+        },
+        {
+          "label": "42",
+          "min": 94,
+          "max": 98,
+          "eu": "42",
+          "us": "10",
+          "uk": "14"
+        },
+        {
+          "label": "44",
+          "min": 98,
+          "max": 102,
+          "eu": "44",
+          "us": "12",
+          "uk": "16"
+        },
+        {
+          "label": "46",
+          "min": 102,
+          "max": 107,
+          "eu": "46",
+          "us": "14",
+          "uk": "18"
+        },
+        {
+          "label": "48",
+          "min": 107,
+          "max": 113,
+          "eu": "48",
+          "us": "16",
+          "uk": "20"
+        },
+        {
+          "label": "50",
+          "min": 113,
+          "max": 119,
+          "eu": "50",
+          "us": "18",
+          "uk": "22"
+        }
+      ]
+    },
+    {
+      "id": "nb",
+      "name": "New Balance",
+      "ko": "뉴발란스",
+      "sources": [
+        "https://www.newbalance.co.uk/customercare-storefront-sizeguide-apparel.html",
+        "https://www.newbalance.com/sizechart-apparel.html",
+        "https://www.newbalance.de/de/sizechart-apparel.html"
+      ],
+      "note": "일반 상의. UK 공식 cm 신체 치수 및 EU/UK 숫자표와 US 공식 숫자표를 사용합니다. 남성은 문자 사이즈로 표시합니다.",
+      "men": [
+        {
+          "label": "XS",
+          "min": 84,
+          "max": 89,
+          "eu": "XS",
+          "us": "XS",
+          "uk": "XS"
+        },
+        {
+          "label": "S",
+          "min": 89,
+          "max": 97,
+          "eu": "S",
+          "us": "S",
+          "uk": "S"
+        },
+        {
+          "label": "M",
+          "min": 97,
+          "max": 104,
+          "eu": "M",
+          "us": "M",
+          "uk": "M"
+        },
+        {
+          "label": "L",
+          "min": 104,
+          "max": 112,
+          "eu": "L",
+          "us": "L",
+          "uk": "L"
+        },
+        {
+          "label": "XL",
+          "min": 112,
+          "max": 122,
+          "eu": "XL",
+          "us": "XL",
+          "uk": "XL"
+        },
+        {
+          "label": "2XL",
+          "min": 122,
+          "max": 135,
+          "eu": "2XL",
+          "us": "2XL",
+          "uk": "2XL"
+        }
+      ],
+      "women": [
+        {
+          "label": "XS",
+          "min": 76,
+          "max": 81,
+          "eu": "32–34",
+          "us": "0–2",
+          "uk": "4–6"
+        },
+        {
+          "label": "S",
+          "min": 81,
+          "max": 89,
+          "eu": "36–38",
+          "us": "4–6",
+          "uk": "8–10"
+        },
+        {
+          "label": "M",
+          "min": 89,
+          "max": 94,
+          "eu": "40–42",
+          "us": "8–10",
+          "uk": "12–14"
+        },
+        {
+          "label": "L",
+          "min": 94,
+          "max": 102,
+          "eu": "44–46",
+          "us": "12–14",
+          "uk": "16–18"
+        },
+        {
+          "label": "XL",
+          "min": 102,
+          "max": 112,
+          "eu": "48–50",
+          "us": "16–18",
+          "uk": "20–22"
+        },
+        {
+          "label": "2XL",
+          "min": 112,
+          "max": 119,
+          "eu": "52–54",
+          "us": "20–22",
+          "uk": "24–28"
+        }
+      ]
+    }
+  ]
+};
+// Pure lookup functions keep published data separate from UI and inference rules.
+function matchApparel(rows, cm) {
+ if (!Number.isFinite(cm)) return {rows:[],kind:'missing'};
+ const exact=rows.filter(r=>cm>=r.min-1e-8 && cm<=r.max+1e-8);
+ if(exact.length) return {rows:exact,kind:exact.length>1?'boundary':'range'};
+ const lower=rows.filter(r=>r.max<cm).at(-1);
+ const upper=rows.find(r=>r.min>cm);
+ if(lower&&upper) return {rows:[lower,upper],kind:'between'};
+ return {rows:[],kind:'missing'};
+}
+function shoeResult(brand, gender, kr) {
+ const row=brand[gender].find(r=>r.kr===kr);
+ return {rows:row?[row]:[],kind:row?'label':'missing'};
+}
+const $=id=>document.getElementById(id);
+const state={category:'shoes',saved:{shoes_men:'270',shoes_women:'240',men:'100',women:'85'},chest:{men:'',women:''},useChest:{men:false,women:false}};
+function key(){return state.category==='shoes'?'shoes_'+$('gender').value:state.category;}
+function brands(){return state.category==='shoes'?DATA.shoeBrands:DATA.apparelBrands;}
+function node(tag,text,cls){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el;}
+function sourceLink(url,text){const a=node('a',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
+function populate(){
+ const shoe=state.category==='shoes';const gender=$('gender').value;
+ const values=shoe?(gender==='men'?[250,255,260,265,270,275,280,285,290]:[220,225,230,235,240,245,250,255]):state.category==='men'?[85,90,95,100,105,110,115,120]:[80,85,90,95,100,105,110];
+ $('kr-size').replaceChildren(...values.map(v=>{const opt=node('option',shoe?v+' mm':'KR '+v);opt.value=String(v);return opt;}));
+ $('kr-size').value=state.saved[key()];
+ $('gender-field').hidden=!shoe;$('chest-field').hidden=shoe;$('fields').classList.toggle('clothes',!shoe);
+ $('kr-label').textContent=shoe?'한국 신발 사이즈 (mm)':'한국 상의 사이즈 (가슴둘레형 숫자)';
+ $('use-chest').checked=!shoe&&state.useChest[state.category];
+ $('chest').disabled=!$('use-chest').checked;$('chest').value=shoe?'':state.chest[state.category];
+ $('kr-size').disabled=$('use-chest').checked;
+ $('input-note').textContent=shoe?'신발에 표시된 한국 사이즈를 선택하세요. 각 브랜드 공식 표의 CM/JP(또는 Length) 열에 대응한 라벨 비교이며, 실측 발 길이에 대한 추천은 아닙니다. 여성용은 여성 전용 표 기준입니다.':'상의 참고 비교입니다. KR 100을 가슴둘레 100 cm로 가정해 조회합니다. 한국 라벨과 실제 신체 치수는 다를 수 있으므로, 실제 가슴둘레를 입력하면 가정을 대신합니다. 여성 44·55·66이나 브랜드 자체 KR 표기에는 이 등식이 적용되지 않습니다.';
+ render();
+}
+function render(){
+ const shoe=state.category==='shoes',gender=shoe?$('gender').value:state.category;
+ const kr=Number($('kr-size').value),useChest=!shoe&&$('use-chest').checked;
+ const raw=$('chest').value.trim(),cm=useChest?Number(raw):kr;
+ const invalid=useChest&&(raw===''||!Number.isFinite(cm)||cm<70||cm>140||!$('chest').checkValidity());
+ $('input-error').hidden=!invalid;
+ $('input-error').textContent=invalid?'실제 가슴둘레를 70~140 cm 범위에서 소수 첫째 자리까지 입력해 주세요.':'';
+ $('chest').setAttribute('aria-invalid',String(invalid));
+ const list=brands();
+ $('result-badge').textContent=shoe?'신발 라벨 비교':useChest?'실측 기반 · 상의 참고':'KR 가정 기반 · 상의 참고';
+ $('result-summary').textContent=invalid?'가슴둘레를 입력하면 비교 결과가 표시됩니다.':shoe?`${gender==='men'?'남성':'여성'} 신발 · 한국 ${kr} mm`:`${gender==='men'?'남성':'여성'} 일반 상의 · ${useChest?'실측 가슴둘레':'KR '+kr+' → 참고 가슴둘레'} ${cm} cm`;
+ const head=node('tr');const corner=node('th','국가','country');corner.scope='col';head.append(corner);
+ list.forEach(b=>{const th=node('th',b.name);th.scope='col';th.append(node('small',b.ko));head.append(th);});$('table-head').replaceChildren(head);
+ const results=list.map(b=>invalid?{rows:[],kind:'invalid'}:shoe?shoeResult(b,gender,kr):matchApparel(b[gender],cm));
+ const body=['eu','us','uk'].map(region=>{
+  const tr=node('tr'),th=node('th',region.toUpperCase(),'country');th.scope='row';tr.append(th);
+  results.forEach(result=>{
+   const td=node('td');
+   if(!result.rows.length){td.append(node('span','—','empty'),node('small',invalid?'입력 대기':'표 범위 밖','detail'));}
+   else{
+    const labels=[...new Set(result.rows.map(r=>r[region]))];
+    td.append(node('span',labels.join(' / ')));
+    if(!shoe){const alpha=[...new Set(result.rows.map(r=>r.label))];const text=result.kind==='between'?'사이 치수 · 두 후보':result.kind==='boundary'?'경계 치수 · 두 후보':alpha.every(v=>/^[0-9]/.test(v))?'가슴둘레 참고':'상의 '+alpha.join(' / ');td.append(node('small',text,'detail'));}
+   }
+   tr.append(td);
+  });return tr;
+ });$('table-body').replaceChildren(...body);
+ const foot=node('tr');const label=node('th','적용 기준','country');label.scope='row';foot.append(label);
+ list.forEach((b,i)=>{const td=node('td');if(shoe)td.append(node('div','라벨 '+kr+' mm'));else if(!invalid&&results[i].rows.length)td.append(node('div',results[i].rows.map(r=>{const f=v=>String(Math.round(v*100)/100);return r.min===r.max?f(r.min)+' cm':f(r.min)+'–'+f(r.max)+' cm';}).join(' / ')));td.append(sourceLink(shoe&&b.id==='nike'?b.sources[gender==='men'?0:1]:!shoe&&['nike','adidas','hm'].includes(b.id)?b.sources[gender==='men'?0:1]:b.sources[0],'공식 표 ↗'));foot.append(td);});$('table-foot').replaceChildren(foot);
+ $('table-note').textContent=shoe?'동일한 mm 표기라도 브랜드별 해외 사이즈는 다릅니다. 해당 모델의 발볼·핏과 실측 발 길이 가이드를 함께 확인하세요.':'가슴둘레 한 가지로 조회한 참고 후보입니다. 허리·어깨·기장·핏은 반영하지 않습니다. 문자(S/M/L)도 공식 표기입니다.'+(gender==='women'?' H&M 여성 UK는 보조 비교표 기준입니다. 자세한 출처는 아래에서 확인하세요.':'');
+ $('legend').replaceChildren(...(shoe?['5개 브랜드 · EU / US / UK','출처의 표기값 기준']:['/ : 경계 또는 사이 치수의 후보','– : 공식 표의 사이즈 구간','— : 수록된 표 범위 밖']).map(t=>node('span',t)));
+ $('source-list').replaceChildren(...list.map(b=>{const item=node('div',undefined,'source-item');item.append(node('strong',b.name+' · '+b.ko),node('p',b.note));b.sources.forEach((u,i)=>item.append(sourceLink(u,(u.includes('whatismysize.com')?'UK 보조 출처':'공식 출처 '+(i+1))+' ↗')));return item;}));
+ $('method').textContent='자료 확인: '+DATA.checked+'. '+(shoe?'본 파일에 수록한 범위: 남성 250–290 mm, 여성 220–255 mm. 모델 재고를 의미하지 않습니다.':'KR 숫자를 같은 숫자의 가슴둘레(cm)로 사용하는 것은 이 도구의 참고 가정이며 공식 한국↔해외 환산표가 아닙니다. 실제 둘레 입력 시 그 값을 우선합니다. 공식 치수 구간이 겹치면 모두, 구간 사이이면 양쪽 후보를 표시하며 범위 밖으로 외삽하지 않습니다. H&M의 지역별 표기 차이와 New Balance 2XL의 UK 24–28 표기는 연결된 출처대로 유지했습니다.');
+}
+document.querySelectorAll('[data-category]').forEach(btn=>btn.addEventListener('click',()=>{
+ state.category=btn.dataset.category;
+ document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+ populate();
+}));
+$('gender').addEventListener('change',populate);
+$('kr-size').addEventListener('change',()=>{state.saved[key()]=$('kr-size').value;render();});
+$('use-chest').addEventListener('change',()=>{state.useChest[state.category]=$('use-chest').checked;$('chest').disabled=!$('use-chest').checked;$('kr-size').disabled=$('use-chest').checked;if($('use-chest').checked)$('chest').focus();render();});
+$('chest').addEventListener('input',()=>{state.chest[state.category]=$('chest').value;render();});
+populate();
+</script>
+</body>
+</html>
