@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Jobtory Converter</title>
+<style>
+:root{color-scheme:light;--bg:#f4f7fc;--panel:#ffffff;--line:#dce4f2;--text:#172b50;--muted:#50678e;--blue:#365cff;--green:#207254;--red:#b4233c}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#edf1f7;color:var(--text);font:14px/1.5 "Malgun Gothic","맑은 고딕",system-ui,sans-serif;display:grid;place-items:center;padding:32px 16px}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:4px}button{color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 14px}button:hover{background:#edf2ff;border-color:#8a9fe9}button:active{background:#e0e9ff}button:disabled{opacity:.45;cursor:default}button:disabled:hover{background:var(--panel);border-color:var(--line)}
+.app{width:100%;max-width:780px;background:var(--bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 70px #2031590c}.titlebar{display:flex;align-items:center;gap:11px;padding:17px 21px;border-bottom:1px solid var(--line)}.logo{width:30px;height:30px;background:#293f6e;border:1px solid #63779d;border-radius:8px;color:var(--blue);display:grid;place-items:center;font-size:23px}.titlebar h1{font-size:17px;line-height:1.2;margin:0;font-weight:650}.badge{margin-left:auto;color:var(--muted);font-size:11px;border:1px solid var(--line);border-radius:20px;padding:3px 9px;white-space:nowrap}
+.toolbar{background:#ffffff;display:flex;align-items:center;gap:4px;padding:6px 14px;border-bottom:1px solid var(--line)}.toolbar button{font-size:12px;border:0;background:transparent;color:var(--muted);padding:6px 10px}.toolbar button:hover{background:#edf2ff;color:var(--text)}.toolbar .info{margin-left:auto}main{padding:20px;display:grid;gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:17px}.heading{color:var(--blue);font-size:13px;font-weight:700;margin:0 0 14px;display:flex;gap:9px;align-items:center}.heading:before{content:"";display:block;width:8px;height:8px;background:var(--blue);border-radius:2px;flex:none}.categories{display:flex;flex-wrap:wrap;gap:8px}.category{border-radius:24px;min-height:38px;padding:8px 14px;font-size:13px;font-weight:600}.category[aria-pressed="true"]{background:#ffffff;color:#365cff;border-color:#ffffff}
+.converter{display:grid;grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr);gap:14px 12px}.column{display:grid;gap:12px;min-width:0}.field{display:grid;gap:6px}label,.field-label{font-size:12px;color:var(--muted)}input,select{width:100%;min-width:0;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-height:43px;font-size:14px;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 2px #9ed0fc15}input[aria-invalid="true"]{border-color:var(--red)}#result{background:var(--bg);color:var(--blue);font-weight:700}select{padding-right:6px}.swap{width:38px;height:38px;align-self:center;border-radius:50%;padding:0;display:grid;place-items:center;color:var(--blue)}.swap svg{width:22px;height:22px}.calculate{grid-column:1/-1;background:var(--blue);color:#ffffff;border:0;font-weight:750;font-size:15px;min-height:44px}.calculate:hover{background:#2949d6}.calculate:active{background:#203159}.formula{display:flex;gap:14px;justify-content:space-between;align-items:center;background:var(--bg);border-radius:6px;padding:10px 12px;margin-top:13px;font-size:12px}.formula-label{color:var(--muted);white-space:nowrap}.formula-value{text-align:right;font-weight:600;color:#203159;overflow-wrap:anywhere}
+.quick{display:flex;align-items:center;flex-wrap:wrap;gap:7px}.quick-label{font-size:12px;color:var(--muted);margin-right:2px}.quick button{font-size:12px;padding:9px 10px}.statusbar{border-top:1px solid var(--line);background:#f4f7fc;display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:12px;color:var(--muted)}.status-dot{width:7px;height:7px;flex:none;border-radius:50%;background:currentColor}#status{flex:1;overflow-wrap:anywhere}.version{font-size:11px;white-space:nowrap;color:var(--muted)}.statusbar.success{color:var(--green)}.statusbar.error{color:var(--red)}
+dialog{color:var(--text);background:var(--panel);border:1px solid #c2cfe5;border-radius:12px;padding:25px;max-width:440px;width:calc(100% - 32px);box-shadow:0 20px 70px #20315933}dialog::backdrop{background:#15244480}dialog h2{font-size:20px;color:var(--blue);margin:0 0 14px}dialog p{margin:10px 0}dialog .muted{color:var(--muted);font-size:13px}dialog a{color:var(--blue);overflow-wrap:anywhere}.dialog-actions{display:flex;justify-content:flex-end;margin-top:22px}.dialog-actions button{min-width:80px}.credit{margin-top:24px!important}kbd{font:12px system-ui;background:#f4f7fc;border:1px solid #c2cfe5;border-radius:4px;padding:2px 5px}.help-list{padding-left:20px;color:var(--muted);font-size:13px}.help-list li{margin:10px 0}noscript{display:block;color:var(--red);padding:16px}
+@media(max-width:560px){body{padding:14px 10px;align-items:start}.titlebar{padding:16px}.titlebar h1{font-size:16px}.badge{font-size:10px}main{padding:13px;gap:14px}.panel{padding:14px}.toolbar{padding:5px 8px;flex-wrap:wrap}.toolbar button{padding:7px 8px}.converter{grid-template-columns:minmax(0,1fr);gap:12px}.swap{justify-self:center;transform:rotate(90deg)}.formula{align-items:start;flex-direction:column;gap:5px}.formula-value{text-align:left}.category{padding:8px 12px}.quick{gap:6px}.quick-label{width:100%}.statusbar{padding:10px 13px}.version{display:none}}
+@media(prefers-reduced-motion:no-preference){button{transition:background .12s,border-color .12s}}
+
+/* Navy, white and pale blue palette from the supplied reference. */
+.app{max-width:900px;border-radius:20px;border-color:#dce4f2;background:#fff}
+.titlebar{background:#203159;color:#fff;padding:30px 32px;align-items:flex-start;gap:15px;min-height:150px;border:0}
+.titlebar h1{font-size:28px;font-weight:750;line-height:1.3;color:#fff;margin:5px 0 12px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#d5e2ff;margin:0 0 8px}
+.subtitle{font-size:13px;color:#dbe6ff;margin:0;line-height:1.6}
+.logo{color:#dbe6ff;margin-top:27px;flex:none}
+.badge{color:#fff;border-color:#6a7da1;margin-top:6px;padding:5px 10px}
+.toolbar{padding:9px 22px}.toolbar button{color:#50678e}
+main{padding:24px 28px;gap:22px}.panel{padding:18px;border-color:#e2e8f3}
+.heading{color:#172b50;font-size:14px}.heading:before{background:#365cff}
+.categories{background:#f4f7fc;border-radius:12px;padding:5px;gap:5px}
+.category{flex:1;border:0;background:transparent;border-radius:9px;color:#50678e;min-width:64px}
+.category[aria-pressed="true"]{color:#365cff;box-shadow:0 2px 7px #2031590d;background:#fff}
+.category:hover{background:#eaf0fc}
+input,select{border-color:#bccbe5;min-height:47px;background:#fff;border-radius:8px}
+label{color:#203159}#result{background:#f4f7fc;color:#2449b1}
+.swap{background:#f4f7fc}.calculate{min-height:46px;border-radius:8px}
+.formula{background:#f4f7fc;padding:13px 14px}.formula-value{color:#2449b1}
+.quick button{background:#f4f7fc;color:#2449b1}.quick button:hover{background:#e8efff}
+.statusbar{background:#f7f9fd}dialog{background:#fff}dialog h2{color:#203159}
+@media(max-width:560px){.titlebar{padding:23px 19px;min-height:142px;flex-wrap:wrap;gap:10px}.titlebar h1{font-size:23px}.logo{display:none}.title-copy{flex:1;min-width:0}.subtitle{font-size:12px}.badge{font-size:9px;margin:0}.toolbar{padding:7px 9px}main{padding:16px 13px}.panel{padding:13px}.categories{gap:4px}.category{min-width:60px;flex:1 0 20%;padding:8px 9px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+ <header class="titlebar"><span class="logo" aria-hidden="true">⇄</span><div class="title-copy"><p class="eyebrow">JOBTORY · UNIT CONVERTER</p><h1>Jobtory Converter</h1><p class="subtitle">일상의 단위부터 아주 작은 길이와 우주의 거리까지.</p></div><span class="badge">오프라인 사용 가능</span></header>
+ <nav class="toolbar" aria-label="도구"><button id="reset" type="button">초기화</button><button id="copy" type="button">결과 복사</button><button id="help" type="button">사용 방법</button><button id="about" type="button" class="info">프로그램 정보</button></nav>
+ <noscript>이 변환기는 JavaScript를 사용합니다. 브라우저 설정에서 JavaScript를 허용한 후 다시 열어 주세요.</noscript>
+ <main>
+  <section class="panel" aria-labelledby="category-heading"><h2 class="heading" id="category-heading">변환 카테고리 선택 (CATEGORY)</h2><div class="categories" id="categories" role="group" aria-label="변환 카테고리"></div></section>
+  <section class="panel" aria-labelledby="converter-heading">
+   <h2 class="heading" id="converter-heading">단위 변환 계산기</h2>
+   <form id="converter" class="converter" novalidate>
+    <div class="column"><div class="field"><label for="value">변환할 값 (Input)</label><input id="value" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="숫자를 입력하세요" value="10" aria-describedby="status"></div><div class="field"><label for="from">원래 단위 (From)</label><select id="from"></select></div></div>
+    <button class="swap" id="swap" type="button" title="원래 단위와 대상 단위 교환" aria-label="단위 교환"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16m-4-4 4 4-4 4M20 16H4m4-4-4 4 4 4"/></svg></button>
+    <div class="column"><div class="field"><label for="result">결과 값 (Result)</label><input id="result" readonly aria-label="변환 결과"></div><div class="field"><label for="to">대상 단위 (To)</label><select id="to"></select></div></div>
+    <button class="calculate" type="submit">변환 실행</button>
+   </form>
+   <div class="formula"><span class="formula-label">변환 공식 (Formula):</span><span class="formula-value" id="formula"></span></div>
+  </section>
+  <section class="quick" aria-label="빠른 테스트"><span class="quick-label">빠른 테스트:</span><button type="button" data-example="0">10 m → cm</button><button type="button" data-example="1">100 kg → lb</button><button type="button" data-example="2">37 ℃ → ℉</button><button type="button" data-example="3">1 atm → bar</button><button type="button" data-example="4">33 평 → m²</button></section>
+ </main>
+ <footer class="statusbar" id="statusbar"><span class="status-dot" aria-hidden="true"></span><span id="status" role="status" aria-live="polite" aria-atomic="true">준비</span><span class="version">Jobtory · v1.0</span></footer>
+</div>
+<dialog id="about-dialog" aria-labelledby="about-title"><h2 id="about-title">Jobtory Converter</h2><p>길이 · 무게 · 온도 · 압력 · 면적 · 부피 · 속도</p><p class="muted">단일 HTML 단위 변환기 · v1.0</p><p class="credit">Developed by Jobtory, Sep. 2026</p><p><a href="https://blog.naver.com/oddjobpedia" target="_blank" rel="noopener noreferrer">https://blog.naver.com/oddjobpedia</a></p><form method="dialog" class="dialog-actions"><button>확인</button></form></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><h2 id="help-title">사용 방법</h2><ol class="help-list"><li>변환 카테고리와 원래 단위, 대상 단위를 선택하세요.</li><li>값을 입력한 뒤 <strong>변환 실행</strong> 또는 <kbd>Enter</kbd>를 누르세요.</li><li>가운데 화살표로 단위를 교환하거나 빠른 테스트로 예제를 확인할 수 있습니다.</li><li>결과 복사 버튼으로 계산 결과를 복사할 수 있습니다.</li></ol><p class="muted">음수, 소수, 지수 표기(예: 1e3)를 지원합니다. 천 단위 쉼표는 넣지 마세요.</p><p class="muted">파일 하나로 작동하며 설치나 인터넷 연결이 필요 없습니다. 블로그 링크를 열 때만 인터넷이 필요합니다.</p><form method="dialog" class="dialog-actions"><button>확인</button></form></dialog>
+<script>
+'use strict';
+const categories={
+ '길이':{'m':1,'cm':.01,'mm':.001,'km':1000,'inch':.0254,'ft':.3048,'yd':.9144,'mile':1609.34,'µm':1e-6,'pm':1e-12,'ly':9460730472580800},
+ '무게':{'kg':1,'g':.001,'mg':.000001,'t':1000,'lb':.453592,'oz':.0283495},
+ '온도':{'℃':1,'℉':1,'K':1},
+ '압력':{'Pa':1,'kPa':1000,'MPa':1000000,'kgf/mm²':9806650,'bar':100000,'atm':101325,'psi':6894.76,'mmHg':133.322},
+ '면적':{'m²':1,'cm²':.0001,'km²':1000000,'ft²':.092903,'yd²':.836127,'평':3.305785,'acre':4046.86},
+ '부피':{'L':1,'mL':.001,'m³':1000,'gal (US)':3.78541,'qt':.946353,'pt':.473176},
+ '속도':{'m/s':1,'km/h':1/3.6,'mph':.44704,'knot':.514444}
+};
+const names={'µm':'마이크로미터','pm':'피코미터','ly':'광년','MPa':'메가파스칼','m':'미터','cm':'센티미터','mm':'밀리미터','km':'킬로미터','inch':'인치','ft':'피트','yd':'야드','mile':'마일','kg':'킬로그램','g':'그램','mg':'밀리그램','t':'톤','lb':'파운드','oz':'온스','℃':'섭씨','℉':'화씨','K':'켈빈','Pa':'파스칼','kPa':'킬로파스칼','bar':'바','atm':'기압','psi':'제곱인치당 파운드','mmHg':'수은주 밀리미터','m²':'제곱미터','cm²':'제곱센티미터','km²':'제곱킬로미터','ft²':'제곱피트','yd²':'제곱야드','평':'평','acre':'에이커','L':'리터','mL':'밀리리터','m³':'세제곱미터','gal (US)':'미국 갤런','qt':'미국 쿼트','pt':'미국 파인트','m/s':'초속','km/h':'시속','mph':'마일/시간','knot':'노트'};
+names['kgf/mm²']='킬로그램힘/제곱밀리미터';
+// Conversion references: IAU Julian light-year and NIST SP 811 pressure factors.
+// https://iauarchive.eso.org/public/themes/measuring/
+// https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8
+// 1 kgf/mm² = 100 kgf/cm² = 9,806,650 Pa.
+const examples=[['길이','m','cm','10'],['무게','kg','lb','100'],['온도','℃','℉','37'],['압력','atm','bar','1'],['면적','평','m²','33']];
+const $=id=>document.getElementById(id);
+const input=$('value'),output=$('result'),from=$('from'),to=$('to');
+let category='길이';
+const format=value=>Number(value.toPrecision(10)).toString();
+function convertValue(cat,source,target,value){
+ if(source===target)return value;
+ if(cat!=='온도')return value*categories[cat][source]/categories[cat][target];
+ const c=source==='℃'?value:source==='℉'?(value-32)*5/9:value-273.15;
+ return target==='℃'?c:target==='℉'?c*9/5+32:c+273.15;
+}
+function setStatus(message,type=''){$('status').textContent=message;$('statusbar').className='statusbar'+(type?' '+type:'');}
+function updateFormula(){
+ const s=from.value,t=to.value;
+ const formulas={'℃|℉':'℉ = ℃ × 9/5 + 32','℉|℃':'℃ = (℉ − 32) × 5/9','℃|K':'K = ℃ + 273.15','K|℃':'℃ = K − 273.15','℉|K':'K = (℉ − 32) × 5/9 + 273.15','K|℉':'℉ = (K − 273.15) × 9/5 + 32'};
+ $('formula').textContent=category==='온도'&&s!==t?formulas[s+'|'+t]:`1 ${s} = ${format(convertValue(category,s,t,1))} ${t}`;
+}
+function invalidate(){output.value='';$('copy').disabled=true;input.removeAttribute('aria-invalid');setStatus('준비 · 값을 입력한 뒤 변환 실행을 누르세요.');updateFormula();}
+function chooseCategory(cat){
+ category=cat;
+ for(const button of $('categories').children)button.setAttribute('aria-pressed',String(button.textContent===cat));
+ for(const select of [from,to])select.replaceChildren(...Object.keys(categories[cat]).map(u=>new Option(`${names[u]} (${u})`,u)));
+ to.selectedIndex=1;invalidate();
+}
+function calculate(){
+ const raw=input.value.trim();
+ if(!raw){invalidate();return;}
+ const numeric=/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i;
+ const value=Number(raw);
+ if(!numeric.test(raw)||!Number.isFinite(value)){output.value='';$('copy').disabled=true;input.setAttribute('aria-invalid','true');setStatus('유효한 숫자를 입력해 주세요.','error');return;}
+ input.removeAttribute('aria-invalid');
+ const result=convertValue(category,from.value,to.value,value);
+ if(!Number.isFinite(result)){output.value='';$('copy').disabled=true;setStatus('계산 가능한 범위를 초과했습니다.','error');return;}
+ output.value=format(result);$('copy').disabled=false;updateFormula();
+ setStatus(`변환 완료: ${format(value)} ${from.value} → ${output.value} ${to.value}`,'success');
+}
+function quickTest(index){const [cat,s,t,v]=examples[index];chooseCategory(cat);from.value=s;to.value=t;input.value=v;calculate();}
+for(const cat of Object.keys(categories)){const button=document.createElement('button');button.type='button';button.className='category';button.textContent=cat;button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>chooseCategory(cat));$('categories').append(button);}
+$('converter').addEventListener('submit',e=>{e.preventDefault();calculate();});
+input.addEventListener('input',invalidate);from.addEventListener('change',invalidate);to.addEventListener('change',invalidate);
+$('swap').addEventListener('click',()=>{const s=from.value;from.value=to.value;to.value=s;invalidate();calculate();});
+document.querySelectorAll('[data-example]').forEach(button=>button.addEventListener('click',()=>quickTest(Number(button.dataset.example))));
+$('reset').addEventListener('click',()=>{quickTest(0);input.focus();});
+$('about').addEventListener('click',()=>$('about-dialog').showModal());
+$('help').addEventListener('click',()=>$('help-dialog').showModal());
+$('copy').addEventListener('click',async()=>{
+ const value=output.value;if(!value)return;
+ let copied=false;
+ try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(value);copied=true;}}catch{}
+ if(!copied){output.focus();output.select();try{copied=document.execCommand('copy');}catch{}}
+ if(copied)setStatus('결과를 클립보드에 복사했습니다.','success');
+ else{output.focus();output.select();setStatus('선택된 결과를 Ctrl+C 또는 기기의 복사 메뉴로 복사해 주세요.');}
+});
+quickTest(0);
+</script>
+</body>
+</html>
