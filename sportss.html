@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수영 & 러닝 페이스 / 칼로리 / VO2max 변환기</title>
+    <style>
+        .converter-card {
+            max-width: 600px;
+            margin: 24px auto;
+            background: #ffffff;
+            border-radius: 14.4px;
+            box-shadow: 0 4.8px 18px rgba(0,0,0,0.08);
+            border: 1.2px solid #e1e4e8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+        }
+        .converter-header {
+            background: #0284c7;
+            color: #ffffff;
+            padding: 24px;
+            text-align: center;
+        }
+        .converter-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .converter-header p {
+            margin: 6px 0 0 0;
+            font-size: 15.6px;
+            opacity: 0.9;
+        }
+        .converter-body {
+            padding: 24px;
+        }
+        .tab-menu {
+            display: flex;
+            border-bottom: 2.4px solid #f1f5f9;
+            margin-bottom: 24px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            font-size: 16.8px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2.4px solid transparent;
+            margin-bottom: -2.4px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            color: #0284c7;
+            border-bottom-color: #0284c7;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 19.2px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 15.6px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 7.2px;
+        }
+        .input-row {
+            display: flex;
+            gap: 12px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 14.4px;
+            border: 1.2px solid #cbd5e1;
+            border-radius: 7.2px;
+            font-size: 16.8px;
+            box-sizing: border-box;
+            background-color: #f8fafc;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #0284c7;
+            background-color: #ffffff;
+        }
+        .result-box {
+            margin-top: 24px;
+            padding: 19.2px;
+            background-color: #f0f9ff;
+            border: 1.2px solid #bae6fd;
+            border-radius: 9.6px;
+        }
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 9.6px;
+        }
+        .result-item {
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 7.2px;
+            text-align: center;
+            border: 1.2px solid #e0f2fe;
+        }
+        .result-item .label {
+            font-size: 13.2px;
+            color: #64748b;
+            display: block;
+            margin-bottom: 2.4px;
+        }
+        .result-item .val {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0369a1;
+        }
+        .converter-footer {
+            padding: 14.4px 24px;
+            background: #f8fafc;
+            border-top: 1.2px solid #f1f5f9;
+            text-align: center;
+            font-size: 14.4px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="converter-card">
+    <div class="converter-header">
+        <h2>수영 & 러닝 스포츠 변환기</h2>
+        <p>페이스 환산 · 칼로리 계산 · VO2max 추정</p>
+    </div>
+    <div class="converter-body">
+        <!-- 탭 메뉴 -->
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="openTab('running')">러닝 페이스</button>
+            <button class="tab-btn" onclick="openTab('swimming')">수영 페이스</button>
+            <button class="tab-btn" onclick="openTab('vo2max')">VO2max & 칼로리</button>
+        </div>
+
+        <!-- 탭 1: 러닝 페이스 변환 -->
+        <div id="tab-running" class="tab-content active">
+            <div class="form-group">
+                <label for="run-speed">시속 (km/h) 입력</label>
+                <input type="number" id="run-speed" class="form-control" placeholder="예: 10.5" min="0" step="any" oninput="calcRunning('speed')">
+            </div>
+            <div class="form-group">
+                <label for="run-pace-min">1km 페이스 입력 (분 : 초)</label>
+                <div class="input-row">
+                    <input type="number" id="run-pace-min" class="form-control" aria-label="1km 페이스 분" placeholder="분 (예: 5)" min="0" step="1" oninput="calcRunning('pace')">
+                    <input type="number" id="run-pace-sec" class="form-control" aria-label="1km 페이스 초" placeholder="초 (예: 30)" min="0" max="59" step="1" oninput="calcRunning('pace')">
+                </div>
+                <p style="font-size: 14.4px; color: #64748b; margin: 9.6px 0 0;">시속 또는 페이스를 입력하면 다른 값이 자동으로 환산됩니다.</p>
+                <p id="run-error" role="status" style="font-size: 14.4px; color: #b91c1c; margin: 9.6px 0 0;"></p>
+            </div>
+
+            <div class="result-box">
+                <div style="font-size: 15.6px; font-weight: 600; color: #0369a1;">러닝 페이스 & 예상 완주 시간</div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="label">1km 페이스</span>
+                        <span class="val" id="res-run-pace">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">10km 예상 시간</span>
+                        <span class="val" id="res-run-10k">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">하프(21.0975km)</span>
+                        <span class="val" id="res-run-half">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">풀코스(42.195km)</span>
+                        <span class="val" id="res-run-full">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 탭 2: 수영 페이스 변환 -->
+        <div id="tab-swimming" class="tab-content">
+            <div class="form-group">
+                <label>100m 페이스 입력 (분 : 초)</label>
+                <div class="input-row">
+                    <input type="number" id="swim-min" class="form-control" placeholder="분 (예: 1)" oninput="calcSwimming()">
+                    <input type="number" id="swim-sec" class="form-control" placeholder="초 (예: 45)" oninput="calcSwimming()">
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div style="font-size: 15.6px; font-weight: 600; color: #0369a1;">목표 거리별 예상 소요 시간</div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="label">500m 소요시간</span>
+                        <span class="val" id="res-swim-500m">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">1,000m (1km)</span>
+                        <span class="val" id="res-swim-1k">-</span>
+                    </div>
+                    <div class="result-item" style="grid-column: span 2;">
+                        <span class="label">1,500m (오픈워터 기본)</span>
+                        <span class="val" id="res-swim-1500m">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 탭 3: VO2max & 칼로리 계산 -->
+        <div id="tab-vo2max" class="tab-content">
+            <div class="form-group">
+                <label>체중 및 12분 달리키 거리(쿠퍼 테스트)</label>
+                <div class="input-row">
+                    <input type="number" id="user-weight" class="form-control" placeholder="체중 (kg)" oninput="calcVo2Cal()">
+                    <input type="number" id="cooper-dist" class="form-control" placeholder="12분간 뛴 거리 (m)" oninput="calcVo2Cal()">
+                </div>
+            </div>
+
+            <div class="result-box">
+                <div style="font-size: 15.6px; font-weight: 600; color: #0369a1;">추정 VO2max & 시간당 소모 칼로리</div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="label">추정 VO2max</span>
+                        <span class="val" id="res-vo2max">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">추정 러닝 칼로리</span>
+                        <span class="val" id="res-run-cal">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="converter-footer">
+        Developed by Jobtory : <a href="https://blog.naver.com/oddjobpedia" target="_blank" rel="noopener noreferrer" style="color: inherit; overflow-wrap: anywhere;">https://blog.naver.com/oddjobpedia</a>
+    </div>
+</div>
+
+<script>
+    function openTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        document.getElementById('tab-' + tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function formatTime(totalSeconds) {
+        if (isNaN(totalSeconds) || totalSeconds <= 0) return '-';
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = Math.floor(totalSeconds % 60);
+
+        let res = '';
+        if (hrs > 0) res += hrs + '시간 ';
+        if (mins > 0 || hrs > 0) res += mins + '분 ';
+        res += secs + '초';
+        return res;
+    }
+
+    // 러닝 페이스 계산
+    function calcRunning(source = 'speed') {
+        const speedInput = document.getElementById('run-speed');
+        const minInput = document.getElementById('run-pace-min');
+        const secInput = document.getElementById('run-pace-sec');
+        const error = document.getElementById('run-error');
+        error.textContent = '';
+        let paceSec;
+
+        if (source === 'pace') {
+            const min = Number(minInput.value);
+            const sec = Number(secInput.value);
+            const empty = minInput.value === '' && secInput.value === '';
+            const valid = !empty && !minInput.validity.badInput && !secInput.validity.badInput &&
+                Number.isInteger(min) && Number.isInteger(sec) && min >= 0 && sec >= 0 && sec < 60 &&
+                Number.isFinite(min * 60 + sec) && min * 60 + sec > 0;
+            paceSec = valid ? min * 60 + sec : NaN;
+            speedInput.value = valid ? Number((3600 / paceSec).toFixed(4)) : '';
+            if (!valid && !empty) error.textContent = '분은 0 이상의 정수, 초는 0~59로 입력하고 합계는 0보다 커야 합니다.';
+        } else {
+            const speed = Number(speedInput.value);
+            paceSec = Number.isFinite(speed) && speed > 0 ? 3600 / speed : NaN;
+            if (Number.isFinite(paceSec) && paceSec > 0) {
+                const rounded = Math.round(paceSec);
+                minInput.value = Math.floor(rounded / 60);
+                secInput.value = rounded % 60;
+            } else {
+                minInput.value = '';
+                secInput.value = '';
+                if (speedInput.value !== '') error.textContent = '시속은 0보다 큰 숫자로 입력해 주세요.';
+            }
+        }
+
+        if (!Number.isFinite(paceSec) || paceSec <= 0) {
+            document.getElementById('res-run-pace').textContent = '-';
+            document.getElementById('res-run-10k').textContent = '-';
+            document.getElementById('res-run-half').textContent = '-';
+            document.getElementById('res-run-full').textContent = '-';
+            return;
+        }
+
+        // 표시는 초 단위로 반올림하고 완주 시간은 원래 값으로 계산
+        const roundedPace = Math.round(paceSec);
+        const paceMin = Math.floor(roundedPace / 60);
+        const paceRemainSec = roundedPace % 60;
+
+        document.getElementById('res-run-pace').textContent = paceMin + "'" + (paceRemainSec < 10 ? '0' : '') + paceRemainSec + '" /km';
+        document.getElementById('res-run-10k').textContent = formatTime(paceSec * 10);
+        document.getElementById('res-run-half').textContent = formatTime(paceSec * 21.0975);
+        document.getElementById('res-run-full').textContent = formatTime(paceSec * 42.195);
+    }
+
+    // 수영 페이스 계산
+    function calcSwimming() {
+        const min = parseInt(document.getElementById('swim-min').value) || 0;
+        const sec = parseInt(document.getElementById('swim-sec').value) || 0;
+
+        const total100mSec = (min * 60) + sec;
+
+        if (total100mSec <= 0) {
+            document.getElementById('res-swim-500m').textContent = '-';
+            document.getElementById('res-swim-1k').textContent = '-';
+            document.getElementById('res-swim-1500m').textContent = '-';
+            return;
+        }
+
+        document.getElementById('res-swim-500m').textContent = formatTime(total100mSec * 5);
+        document.getElementById('res-swim-1k').textContent = formatTime(total100mSec * 10);
+        document.getElementById('res-swim-1500m').textContent = formatTime(total100mSec * 15);
+    }
+
+    // VO2max 및 칼로리 계산
+    function calcVo2Cal() {
+        const weight = parseFloat(document.getElementById('user-weight').value);
+        const dist = parseFloat(document.getElementById('cooper-dist').value);
+
+        if (isNaN(weight) || isNaN(dist) || weight <= 0 || dist <= 0) {
+            document.getElementById('res-vo2max').textContent = '-';
+            document.getElementById('res-run-cal').textContent = '-';
+            return;
+        }
+
+        // 쿠퍼 테스트 공식: VO2max = (거리(m) - 504.9) / 44.73
+        const vo2max = (dist - 504.9) / 44.73;
+        
+        // 12분 달리기를 시속으로 환산하여 약산 칼로리 산출 (METs 공식 기준)
+        const speedKmh = (dist / 1000) * 5; // 12분 = 0.2시간
+        let mets = 8.0;
+        if (speedKmh >= 12) mets = 11.5;
+        else if (speedKmh >= 10) mets = 10.0;
+        else if (speedKmh >= 8) mets = 8.3;
+
+        // 시간당 소모 칼로리 = METs * weight * 1 hour
+        const calPerHour = mets * weight;
+
+        document.getElementById('res-vo2max').textContent = (vo2max > 0 ? vo2max.toFixed(1) : 0) + ' mL/kg/min';
+        document.getElementById('res-run-cal').textContent = '약 ' + Math.round(calPerHour) + ' kcal / 시간';
+    }
+</script>
+
+</body>
+</html>
